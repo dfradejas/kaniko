@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kaniko-job
+spec:
+  template:
+    spec:
+      containers:
+      - name: kaniko
+        image: gcr.io/kaniko-project/executor:v1.6.0-debug
+        args:
+          - "--dockerfile=git://github.com/dfradejas/kaniko.git"
+          - "--context=/docker"
+          - "--no-push"
+          #- "--destination=<gcr.io/$PROJECT/$IMAGE:$TAG>"
+      restartPolicy: Never
+  backoffLimit: 4
